@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 2: Креативный ИИ — Презентация</title>
+    <!-- Подключение шрифтов Space Grotesk (заголовки) и Plus Jakarta Sans (текст) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. БАЗОВАЯ НАСТРОЙКА И СБРОС СТИЛЕЙ */
+        * {
+            box-sizing: border-box;
+        }
+
+        p {
+            margin: 0;
+            margin-bottom: 12px;
+        }
+
+        body {
+            background-color: #03000a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* 1.1 КОНТЕЙНЕР СЛАЙДА (ФИКСИРОВАННЫЙ РАЗМЕР 1280x720) */
+        .slide-container {
+            align-items: center;
+            background-color: #0d0614; /* Глубокий темный пурпурный фон */
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+            display: none;
+            flex-direction: column;
+            height: 720px;
+            justify-content: center;
+            overflow: hidden;
+            padding: 60px 80px;
+            position: relative;
+            width: 1280px;
+        }
+
+        /* Активный слайд */
+        .slide-container.active {
+            display: flex !important;
+        }
+
+        /* Декоративные фоновые элементы (Творческое неоновое свечение) */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, rgba(236, 72, 153, 0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .slide-container::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .slide-container > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 2. ТИПОГРАФИКА ДЛЯ КРЕАТИВНОГО СТИЛЯ */
+        .slide-container h1,
+        .slide-container h2,
+        .slide-container h3 {
+            color: #f8fafc;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .slide-container p,
+        .slide-container li,
+        .slide-container .subtitle,
+        .slide-container .number-label,
+        .slide-container th,
+        .slide-container td {
+            color: #cbd5e1;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .slide-container h1 {
+            font-size: 54px;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            color: #f8fafc;
+        }
+
+        .slide-container .slide-title {
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 35px;
+            text-align: left;
+            width: 100%;
+            color: #f8fafc;
+            border-left: 5px solid #ec4899; /* Фирменный розовый акцент */
+            padding-left: 15px;
+        }
+
+        .slide-container h3 {
+            font-size: 26px;
+            color: #ec4899;
+            margin-bottom: 12px;
+        }
+
+        .slide-container .subtitle {
+            font-size: 22px;
+            margin-top: 15px;
+            color: #94a3b8;
+            max-width: 850px;
+        }
+
+        .slide-container .content-area {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* 3. ШАБЛОНЫ ПРЕЗЕНТАЦИОННЫХ МАКЕТОВ */
+
+        /* Заглавный Слайд */
+        .title-layout {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .title-layout .tag {
+            background-color: rgba(236, 72, 153, 0.1);
+            color: #ec4899;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+
+        /* Разделитель Секций */
+        .section-title-layout {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .section-title-layout hr {
+            border: none;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6);
+            width: 120px;
+            margin-bottom: 25px;
+            border-radius: 2px;
+        }
+
+        .section-title-layout h2 {
+            font-size: 56px;
+            color: #f8fafc;
+            margin-bottom: 15px;
+        }
+
+        /* Две симметричные плитки */
+        .two-column.tiled {
+            align-items: stretch;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        .two-column.tiled > div {
+            background-color: #160f22;
+            border: 1px solid #2e1a47;
+            border-radius: 12px;
+            padding: 35px;
+            transition: border-color 0.3s ease;
+        }
+
+        .two-column.tiled > div:hover {
+            border-color: rgba(236, 72, 153, 0.4);
+        }
+
+        .two-column.tiled h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .two-column.tiled ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .two-column.tiled li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            color: #cbd5e1;
+        }
+
+        .two-column.tiled li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: #ec4899;
+        }
+
+        /* Плитки с Иконками */
+        .tiled-content {
+            align-items: stretch;
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .tile {
+            align-items: center;
+            background-color: #160f22;
+            border-radius: 12px;
+            border: 1px solid #2e1a47;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: flex-start;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .tile .icon {
+            color: #ec4899;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* Списки со Стильными Иконками */
+        .bullet-list {
+            width: 100%;
+            max-width: 950px;
+        }
+
+        .bullet-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 55px;
+            margin-bottom: 20px;
+        }
+
+        .bullet-list i {
+            position: absolute;
+            left: 5px;
+            top: 4px;
+            font-size: 26px;
+            color: #ec4899;
+        }
+
+        .bullet-list li strong {
+            color: #f8fafc;
+            font-size: 20px;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        /* Изображение и Текст */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .case-box {
+            background-color: #160f22;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ef4444;
+        }
+
+        .case-box.success {
+            border-left-color: #10b981;
+        }
+
+        .case-box h4 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ef4444;
+        }
+
+        .case-box.success h4 {
+            color: #10b981;
+        }
+
+        .case-box p {
+            color: #cbd5e1;
+            font-size: 16px;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .image-wrapper {
+            border-radius: 12px;
+            overflow: hidden;
+            height: 380px;
+            border: 1px solid #2e1a47;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Выделенные Цифры (Крупный Фокус) */
+        .highlight-numbers-layout {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .highlight-numbers-layout > div:first-child {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .highlight-numbers-layout .number {
+            font-size: 130px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            line-height: 1;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .highlight-numbers-layout .number-label {
+            font-size: 22px;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Таблицы */
+        .table-layout {
+            width: 100%;
+        }
+
+        .table-layout table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-layout th {
+            background-color: #160f22;
+            color: #f8fafc;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 2px solid #2e1a47;
+        }
+
+        .table-layout td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #2e1a47;
+            color: #cbd5e1;
+            font-size: 16px;
+        }
+
+        .table-layout tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Стилизованные блоки кода */
+        .code-box {
+            background-color: #05020a;
+            border: 1px solid #2d134d;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            color: #f472b6;
+            font-size: 16px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            width: 100%;
+        }
+
+        /* Цитаты */
+        .quote-layout {
+            margin: 0 auto;
+            text-align: center;
+            width: 85%;
+        }
+
+        .quote-layout blockquote {
+            color: #f8fafc;
+            font-size: 38px;
+            font-weight: 500;
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.4;
+            margin: 0 0 25px 0;
+            padding: 0 40px;
+            position: relative;
+        }
+
+        .quote-layout blockquote::before,
+        .quote-layout blockquote::after {
+            color: #ec4899;
+            content: '"';
+            font-size: 100px;
+            line-height: 0;
+            position: absolute;
+            opacity: 0.3;
+        }
+
+        .quote-layout blockquote::before {
+            left: -20px;
+            top: 30px;
+        }
+
+        .quote-layout blockquote::after {
+            bottom: -10px;
+            right: -20px;
+        }
+
+        .quote-layout cite {
+            color: #94a3b8;
+            font-size: 20px;
+            font-style: normal;
+        }
+
+        /* Q&A Макет */
+        .qa-layout {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            align-self: center;
+        }
+
+        .qa-layout h2 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .qa-layout .contact-info {
+            color: #94a3b8;
+            font-size: 20px;
+            margin-top: 40px;
+            border-top: 1px solid #2e1a47;
+            padding-top: 20px;
+            width: 60%;
+        }
+
+        /* ... ТАЙМЕР ОБРАТНОГО ОТСЧЕТА ... */
+        .timer-display {
+            font-size: 110px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: #ec4899;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+        }
+
+        /* ИНТЕРАКТИВНОЕ УПРАВЛЕНИЕ (ТЕМНАЯ СТИЛЬНАЯ ПАНЕЛЬ) */
+        .presentation-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(13, 6, 20, 0.95);
+            border: 1px solid #ec4899;
+            border-radius: 30px;
+            padding: 10px 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .presentation-controls button {
+            background: none;
+            border: none;
+            color: #f8fafc;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+
+        .presentation-controls button:hover {
+            color: #ec4899;
+        }
+
+        .presentation-controls .slide-counter {
+            color: #94a3b8;
+            font-size: 14px;
+            border-left: 1px solid #2e1a47;
+            border-right: 1px solid #2e1a47;
+            padding: 0 15px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Слайд 1: Главный Титульный -->
+<div class="slide-container active" id="slide1">
+    <div class="title-layout">
+        <div class="tag">Марафон по ИИ: День 2</div>
+        <h1>Урок 2: Креативный ИИ</h1>
+        <p class="subtitle">Нейросети для генерации графики, изображений и музыки. Разбудите своего внутреннего творца!</p>
+    </div>
+</div>
+
+<!-- Слайд 2: Технические правила -->
+<div class="slide-container" id="slide2">
+    <h2 class="slide-title">Регламент второго дня</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-clock"></i></div>
+                <h3>Тайминг</h3>
+                <p>2 часа глубокого погружения. Будет очень много красивого визуального контента!</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <h3>Без навыков рисования</h3>
+                <p>Сегодня вы поймете, что писать шедевры и музыку можно без профессионального образования.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-comments"></i></div>
+                <h3>Интерактив в эфире</h3>
+                <p>Мы вместе сочиним песню и сгенерируем под нее обложку прямо в прямом эфире.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 3: Миф о творчестве -->
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">Может ли машина творить?</h2>
+    <div class="content-area">
+        <div class="quote-layout">
+            <blockquote>Искусство — это передача эмоций. ИИ не чувствует эмоции, но он идеально изучил, как люди эти эмоции выражают через визуальные образы и звуки.</blockquote>
+            <cite>Нейросеть — это ваша кисть нового поколения.</cite>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 4: Как ИИ генерирует изображения -->
+<div class="slide-container" id="slide4">
+    <h2 class="slide-title">Как ИИ "рисует"?</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Диффузионные модели на пальцах</h3>
+                <p>ИИ не вырезает куски из чужих картинок в Интернете. Он создает абсолютно новые пиксели с нуля.</p>
+                <div class="bullet-list" style="margin-top: 20px;">
+                    <ul>
+                        <li><i class="fa-solid fa-cloud"></i> <strong>Стадия шума</strong> — всё начинается с хаотичного облака цветных пикселей.</li>
+                        <li><i class="fa-solid fa-magnifying-glass"></i> <strong>Процесс "проявки"</strong> — шаг за шагом ИИ убирает шум и находит очертания.</li>
+                        <li><i class="fa-solid fa-image"></i> <strong>Готовый шедевр</strong> — получается сверхдетализированный финальный рисунок.</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="image-wrapper">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/16410490183787663530_0" alt="Creative abstract vibrant digital artwork illustration">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 5: Midjourney — Король генерации -->
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">Midjourney: Лидер индустрии</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3><i class="fa-solid fa-crown" style="color: #ec4899;"></i> Сильные стороны</h3>
+                <ul>
+                    <li>Фантастическая фотореалистичность (не отличить от реальных фото).</li>
+                    <li>Глубокое понимание сложных художественных стилей и эпох.</li>
+                    <li>Огромное комьюнити дизайнеров по всему миру.</li>
+                </ul>
+            </div>
+            <div>
+                <h3><i class="fa-solid fa-circle-exclamation" style="color: #8b5cf6;"></i> Главные барьеры</h3>
+                <ul>
+                    <li>Работает только внутри мессенджера Discord.</li>
+                    <li>Полностью платная подписка (нет свободного демо-режима).</li>
+                    <li>Сложный процесс настройки оплаты из некоторых стран.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 6: Доступные и бесплатные альтернативы -->
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Где генерировать бесплатно?</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-bolt"></i></div>
+                <h3>Leonardo.ai</h3>
+                <p>Полноценная студия в браузере. Дает бесплатные токены каждый день, множество ИИ-моделей.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-layer-group"></i></div>
+                <h3>Recraft.ai</h3>
+                <p>Идеален для дизайнеров. Генерирует бесконечную векторную графику и иконки.</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                <h3>Шедеврум / Kandinsky</h3>
+                <p>Отечественные бесплатные нейросети. Работают прямо с телефона и отлично понимают русский язык.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 7: Анатомия визуального промпта -->
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">Формула визуального запроса</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div style="grid-column: span 2; background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1)); border: 1px dashed #ec4899; padding: 30px;">
+                <h3 style="text-align: center; font-size: 32px; color: #f8fafc; margin-bottom: 20px;">Как говорить с художником-ИИ</h3>
+                <p style="font-size: 26px; text-align: center; color: #ec4899; font-family: 'Space Grotesk', sans-serif; font-weight: bold; margin: 0;">
+                    Объект + Окружение + Детали/Свет + Стиль/Камера
+                </p>
+            </div>
+        </div>
+        <p class="subtitle" style="text-align: center; margin-top: 30px;">ИИ мыслит образами. Чем точнее вы укажете свет и стиль, тем меньше шансов получить непредсказуемый результат.</p>
+    </div>
+</div>
+
+<!-- Слайд 8: Компонент 1: ОБЪЕКТ -->
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">Компонент 1: ОБЪЕКТ (Кто в кадре?)</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li>
+                    <i class="fa-solid fa-user-astronaut"></i>
+                    <strong>Главный герой или предмет:</strong>
+                    <p>Начните с четкого существительного. Например: «Милый рыжий кот», «Футуристический кроссовок» или «Пожилой детектив».</p>
+                </li>
+                <li>
+                    <i class="fa-solid fa-arrows-to-eye"></i>
+                    <strong>Избегайте абстракций:</strong>
+                    <p>Вместо «красивая атмосфера любви» напишите конкретно: «Влюбленная пара держится за руки под теплым летним дождем».</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 9: Компонент 2: ОКРУЖЕНИЕ -->
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">Компонент 2: ОКРУЖЕНИЕ (Где происходит?)</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li>
+                    <i class="fa-solid fa-mountain-sun"></i>
+                    <strong>Контекст заднего плана:</strong>
+                    <p>Задайте сцену. Где находится ваш объект? На оживленной улице Токио, в тихом сосновом лесу или на фоне минималистичной белой стены?</p>
+                </li>
+                <li>
+                    <i class="fa-solid fa-circle-nodes"></i>
+                    <strong>Глубина кадра:</strong>
+                    <p>Добавление деталей окружения мгновенно создает кинематографичную глубину и реалистичность.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 10: Компонент 3: ДЕТАЛИ И СВЕТ -->
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">Компонент 3: ДЕТАЛИ И СВЕТ (Магия кадра)</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li>
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <strong>Свет определяет настроение картинки:</strong>
+                    <p>Нейросеть рисует светом. Опишите его: «Золотой час солнца» (Golden hour), «Контрастный неоновый свет» (Neon lighting) или «Мягкий студийный свет» (Soft studio light).</p>
+                </li>
+                <li>
+                    <i class="fa-solid fa-microscope"></i>
+                    <strong>Детализация:</strong>
+                    <p>Добавьте слова-триггеры для текстур: «Высокая детализация кожи» (highly detailed skin texture), «Макро-съемка» (macro shot).</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 11: Компонент 4: СТИЛЬ И КАМЕРА -->
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">Компонент 4: СТИЛЬ И КАМЕРА</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li>
+                    <i class="fa-solid fa-camera"></i>
+                    <strong>Фотография или рисунок?</strong>
+                    <p>Укажите тип искусства. Например: «3D рендер в стиле Pixar», «Аниме-стиль студии Ghibli», «Уличная фотография на камеру 35mm» или «Масляная живопись».</p>
+                </li>
+                <li>
+                    <i class="fa-solid fa-sliders"></i>
+                    <strong>Параметры объектива:</strong>
+                    <p>Имитируйте настоящую оптику: «Размытый задний план» (Bokeh effect), «Снято на объектив 85mm f/1.4».</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 12: Кейс Было/Стало: Простой запрос -->
+<div class="slide-container" id="slide12">
+    <h2 class="slide-title">Визуальный промптинг: Ошибки</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="case-box">
+                <h4>Короткий запрос новичка (БЫЛО):</h4>
+                <p>«Робот в офисе»</p>
+            </div>
+            <div class="case-box" style="border-left-color: #8b5cf6;">
+                <h4>Что рисует ИИ по умолчанию:</h4>
+                <p>Простенький пластиковый робот из детских мультфильмов на фоне белых столов. Плоское освещение, полное отсутствие глубины.</p>
+            </div>
+        </div>
+        <p class="subtitle" style="text-align: center; color: #ef4444; margin-top: 30px;"><i class="fa-solid fa-circle-xmark"></i> Итог: Картинка выглядит дешево, фальшиво и непригодна для презентаций или рекламы.</p>
+    </div>
+</div>
+
+<!-- Слайд 13: Кейс Было/Стало: Профессиональный промпт -->
+<div class="slide-container" id="slide13">
+    <h2 class="slide-title">Сборка профессионального промпта</h2>
+    <div class="content-area">
+        <div class="code-box">«A futuristic anthropomorphic robot assistant in a modern high-tech office, working on a laptop. Beautiful cinematic moody lighting, soft volumetric dusk light filtering through large windows, teal and magenta neon accents. Photorealistic, 8k resolution, shot on 35mm lens, depth of field --ar 16:9»</div>
+    </div>
+</div>
+
+<!-- Слайд 14: Экватор: Вопросы и кофе -->
+<div class="slide-container" id="slide14">
+    <h2 class="slide-title">Экватор: Вопросы и кофе</h2>
+    <div class="content-area">
+        <div class="highlight-numbers-layout">
+            <div>
+                <div class="timer-display" id="timer">05:00</div>
+                <div class="number-label">минут перерыв</div>
+            </div>
+            <div style="max-width: 50%;">
+                <h3>Половина пути пройдена</h3>
+                <p>Отдохните 5 минут, пока мы готовимся ко второму мощному блоку. Дальше мы научимся создавать полноценную музыку и песни с помощью ИИ за секунды!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 15: Музыкальный ИИ: Новая эра -->
+<div class="slide-container" id="slide15">
+    <div class="section-title-layout">
+        <hr>
+        <h2>Блок 2: Генерация музыки</h2>
+        <p class="subtitle" style="text-align: center;">Как создавать полноценные треки, песни со словами и инструментальные шедевры в Suno AI.</p>
+    </div>
+</div>
+
+<!-- Слайд 16: Что такое Suno AI? -->
+<div class="slide-container" id="slide16">
+    <h2 class="slide-title">Знакомьтесь: Suno AI</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Ваша персональная студия звукозаписи</h3>
+                <p>Suno — это революционная нейросеть, которая сама пишет текст, подбирает аранжировку, вокал и сводит готовый трек за 1 минуту.</p>
+                <div class="bullet-list" style="margin-top: 20px;">
+                    <ul>
+                        <li><i class="fa-solid fa-music"></i> <strong>Любые жанры</strong> — от симфонического рока до современного рэпа и техно.</li>
+                        <li><i class="fa-solid fa-microphone-lines"></i> <strong>Профессиональный вокал</strong> — женские и мужские голоса на любом языке.</li>
+                        <li><i class="fa-solid fa-file-audio"></i> <strong>Инструментал</strong> — можно убрать слова и оставить чистый фоновый трек.</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="image-wrapper">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/11808670615781540957_0" alt="Robotic hand playing piano keys futuristic music illustration">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 17: Анатомия музыкального промпта -->
+<div class="slide-container" id="slide17">
+    <h2 class="slide-title">Промптинг музыки в Suno</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3><i class="fa-solid fa-guitar" style="color: #ec4899;"></i> Поле «Style of Music»</h3>
+                <p>Задайте стиль, ритм и инструменты:</p>
+                <ul>
+                    <li><strong>Жанр:</strong> Synthwave, Heavy Metal, Deep House, Indie Pop.</li>
+                    <li><strong>Инструменты:</strong> Acoustic guitar, heavy synthesizers, violin solo.</li>
+                    <li><strong>Настроение:</strong> Uplifting, dark, melancholic, energetic 120 BPM.</li>
+                </ul>
+            </div>
+            <div>
+                <h3><i class="fa-solid fa-comment-dots" style="color: #8b5cf6;"></i> Поле «Lyrics»</h3>
+                <p>Где брать текст для песни?</p>
+                <ul>
+                    <li><strong>Автогенерация:</strong> Suno сама напишет текст по вашей теме.</li>
+                    <li><strong>Свой текст:</strong> Вы можете вставить стихи или текст, написанный ранее в Claude или ChatGPT.</li>
+                    <li><strong>Инструментал:</strong> Переключатель «Instrumental» для музыки без слов.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 18: Структура песни в Suno -->
+<div class="slide-container" id="slide18">
+    <h2 class="slide-title">Мета-теги структуры песни</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li>
+                    <i class="fa-solid fa-heading"></i>
+                    <strong>Управляйте структурой с помощью скобок:</strong>
+                    <p>Чтобы Suno понимала, где петь, а где играть соло, используйте квадратные скобки прямо внутри поля с текстом песни.</p>
+                </li>
+                <li>
+                    <i class="fa-solid fa-code"></i>
+                    <strong>Примеры важных мета-тегов:</strong>
+                    <p><code>[Verse]</code> (Куплет), <code>[Chorus]</code> (Припев), <code>[Guitar Solo]</code> (Гитарное соло), <code>[Outro]</code> (Финал песни).</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 19: Пример структуры текста -->
+<div class="slide-container" id="slide19">
+    <h2 class="slide-title">Как выглядит текст для Suno</h2>
+    <div class="content-area">
+        <div class="code-box">[Intro]
+(Slow acoustic guitar intro)
+
+[Verse]
+Я пишу промпты в тишине ночной,
+Мой верный Claude разговаривает со мной...
+
+[Chorus]
+Ооо, это эра ИИ!
+Мы меняем правила игры!
+
+[Guitar Solo]
+
+[Outro]
+(Fade out)</div>
+    </div>
+</div>
+
+<!-- Слайд 20: Связка Midjourney + Suno -->
+<div class="slide-container" id="slide20">
+    <h2 class="slide-title">Связка: Обложка + Трек</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div>
+                <h3>Создаем готовый медиа-продукт</h3>
+                <p>Креативный ИИ позволяет одному человеку стать целым продюсерским центром.</p>
+                <p style="margin-top: 15px; color: #ec4899; font-weight: 600;">План действий:</p>
+                <p>1. Пишем стильный текст в Claude.</p>
+                <p>2. Генерируем песню в Suno.</p>
+                <p>3. Берем ключевые образы и создаем обложку альбома в Midjourney / Leonardo.</p>
+            </div>
+            <div>
+                <div class="image-wrapper">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/1656563959843372564_0" alt="Vibrant neon vinyl record glowing pink design">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 21: Практика в прямом эфире -->
+<div class="slide-container" id="slide21">
+    <div class="section-title-layout">
+        <hr>
+        <h2>Блок 3: Живой воркшоп</h2>
+        <p class="subtitle" style="text-align: center;">Переходим на сайты Leonardo.ai и Suno. Напишем песню о нашем вебинаре прямо сейчас!</p>
+    </div>
+</div>
+
+<!-- Слайд 22: Применение в бизнесе -->
+<div class="slide-container" id="slide22">
+    <h2 class="slide-title">Где применять креативный ИИ?</h2>
+    <div class="content-area">
+        <div class="table-layout">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Сфера</th>
+                        <th>Инструмент</th>
+                        <th>Как это экономит деньги и время</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SMM & Реклама</strong></td>
+                        <td style="color: #ec4899;">Leonardo / Recraft</td>
+                        <td>Создание уникальных баннеров и иллюстраций для постов без стоков и дизайнеров.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>YouTube / Видео</strong></td>
+                        <td style="color: #8b5cf6;">Suno AI</td>
+                        <td>Генерация фоновой фонотеки без нарушения авторских прав (No Copyright).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Брендинг</strong></td>
+                        <td style="color: #ec4899;">Midjourney / Recraft</td>
+                        <td>Быстрое создание концептов логотипов и фирменных стилей для презентации клиенту.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 23: Итоги дня -->
+<div class="slide-container" id="slide23">
+    <h2 class="slide-title">Чему мы сегодня научились?</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li><i class="fa-solid fa-square-check"></i> <strong>ИИ рисует с нуля</strong> — диффузионные модели прорисовывают детали из цифрового шума.</li>
+                <li><i class="fa-solid fa-square-check"></i> <strong>Формула визуального кадра</strong> — Объект, Окружение, Свет и Стиль камеры.</li>
+                <li><i class="fa-solid fa-square-check"></i> <strong>Suno — ваш личный композитор</strong> — генерирует песни со словами за 60 секунд.</li>
+                <li><i class="fa-solid fa-square-check"></i> <strong>Использование мета-тегов</strong> — разметка куплетов и припевов повышает качество трека.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 24: Сила ИИ-дизайна -->
+<div class="slide-container" id="slide24">
+    <h2 class="slide-title">Новые возможности для всех</h2>
+    <div class="content-area">
+        <div class="quote-layout">
+            <blockquote style="font-size: 38px;">«ИИ убирает технический барьер между вашей идеей и ее реализацией. Теперь единственный ограничитель — это ваша фантазия».</blockquote>
+            <cite>Вы больше не зависите от кисти, инструмента или дорогого софта.</cite>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 25: Домашнее задание (бывший 26) -->
+<div class="slide-container" id="slide25">
+    <h2 class="slide-title">Домашнее задание</h2>
+    <div class="content-area">
+        <div class="bullet-list">
+            <ul>
+                <li>
+                    <i class="fa-solid fa-circle-1" style="color: #ec4899;"></i>
+                    <strong>Сгенерируйте иллюстрацию</strong>
+                    <p>Используйте Leonardo.ai или Шедеврум. Напишите подробный промпт с указанием объекта, света и художественного стиля.</p>
+                </li>
+                <li>
+                    <i class="fa-solid fa-circle-2" style="color: #ec4899;"></i>
+                    <strong>Создайте свой первый трек в Suno</strong>
+                    <p>Напишите песню (можно использовать автогенерацию текста) на любую интересную тему.</p>
+                </li>
+                <li>
+                    <i class="fa-solid fa-circle-3" style="color: #ec4899;"></i>
+                    <strong>Поделитесь в чате</strong>
+                    <p>Выложите полученную картинку и ссылку на трек из Suno в закрытый чат марафона для разбора спикером!</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 26: Ответы на вопросы (бывший 27) -->
+<div class="slide-container" id="slide26">
+    <div class="qa-layout">
+        <h2>Задавайте ваши вопросы!</h2>
+        <p class="subtitle" style="text-align: center;">Мы разобрали генерацию графики и музыки. Напишите в чат, если у вас возникли сложности с промптами или сервисами!</p>
+        <div class="contact-info">
+            Спикер отвечает на вопросы в реальном времени.
+        </div>
+    </div>
+</div>
+
+<!-- Слайд 27: Финал урока (бывший 28) -->
+<div class="slide-container" id="slide27">
+    <div class="qa-layout">
+        <h2>До встречи завтра!</h2>
+        <p class="subtitle" style="text-align: center;">Спасибо, что провели этот творческий вечер с нами.</p>
+        <div class="contact-info">
+            Впереди самый практичный день марафона — сборка ассистентов и автоматизация!
+        </div>
+    </div>
+</div>
+
+<!-- ИНТЕРАКТИВНОЕ УПРАВЛЕНИЕ ПРЕЗЕНТАЦИЕЙ -->
+<div class="presentation-controls">
+    <button onclick="changeSlide(-1)"><i class="fa-solid fa-arrow-left"></i> Назад</button>
+    <span class="slide-counter" id="slideCounter">Слайд 1 из 27</span>
+    <button onclick="changeSlide(1)">Вперед <i class="fa-solid fa-arrow-right"></i></button>
+</div>
+
+<script>
+    let currentSlide = 1;
+    const totalSlides = 27;
+
+    // Управление отображением слайдов
+    function updateSlideDisplay() {
+        const slides = document.querySelectorAll('.slide-container');
+        slides.forEach(slide => slide.classList.remove('active'));
+
+        const activeSlide = document.getElementById('slide' + currentSlide);
+        if (activeSlide) {
+            activeSlide.classList.add('active');
+        }
+
+        document.getElementById('slideCounter').innerText = `Слайд ${currentSlide} из ${totalSlides}`;
+        
+        // Перезапускать таймер, если вернулись на слайд 14 (Экватор)
+        if (currentSlide === 14) {
+            startTimer(300, document.querySelector('#timer'));
+        } else {
+            clearInterval(timerInterval);
+        }
+    }
+
+    function changeSlide(direction) {
+        currentSlide += direction;
+        if (currentSlide < 1) currentSlide = 1;
+        if (currentSlide > totalSlides) currentSlide = totalSlides;
+        updateSlideDisplay();
+    }
+
+    // Поддержка стрелок клавиатуры и пробела
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' || event.key === 'Space') {
+            event.preventDefault();
+            changeSlide(1);
+        } else if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            changeSlide(-1);
+        }
+    });
+
+    // Логика таймера для слайда Экватора
+    let timerInterval;
+    function startTimer(duration, display) {
+        clearInterval(timerInterval);
+        let timer = duration, minutes, seconds;
+        timerInterval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                display.textContent = "00:00";
+            }
+        }, 1000);
+    }
+</script>
+</body>
+</html>
